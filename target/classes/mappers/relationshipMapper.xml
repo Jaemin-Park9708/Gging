@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.board.model.dao.RelationshipDao">
+	<insert id="insertRelationship" parameterType="Relationship">
+		INSERT INTO
+		relationships(idA, idB)
+		VALUE(#{idA}, #{idB})
+	</insert>
+
+	<delete id="deleteRelationship" parameterType="Relationship">
+		DELETE FROM
+		relationships
+		WHERE idA=#{idA} AND idB=#{idB}
+	</delete>
+
+	<select id="findFriends" parameterType="String"
+		resultType="Relationship">
+		SELECT * FROM relationships
+		WHERE idA = #{idA}
+	</select>
+</mapper>

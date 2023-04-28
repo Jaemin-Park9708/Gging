@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.board.model.dao.UserDao">
+
+	<insert id="insert" parameterType="User">
+		INSERT INTO users(id, password, name, email, age, img, registDate, gender)
+		VALUE(#{id}, #{password}, #{name}, #{email}, #{age}, #{img}, #{registDate}, #{gender})
+	</insert>
+	
+	<update id="modifyUser" parameterType="User">
+		UPDATE users
+		SET password = #{password}, age = #{age}, img = #{img}
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		UPDATE board
+		SET id="탈퇴한 사용자"
+		WHERE id = #{id};
+		DELETE FROM users
+		WHERE id = #{id};
+		DELETE FROM relationships
+		WHERE idA = #{id} OR idB = #{id};
+	</delete>
+	
+	<select id="selectUserByID" parameterType="string" resultType="User">
+		SELECT * FROM users 
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectUserByEmail" parameterType="string" resultType="User">
+		SELECT * FROM users 
+		WHERE email = #{email}
+	</select>
+	
+	<select id="selectAll" resultType="User">
+		SELECT * FROM users
+	</select>
+	
+	<select id="searchByCondition" parameterType="SearchCondition" resultType="User">
+		SELECT * FROM users
+		<!--  동적쿼리 작성 -->
+		<if test="key != 'none'">
+			WHERE ${key} LIKE CONCAT('%', #{word}, '%')
+		</if>
+		<if test="orderBy != 'none'">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+	</select>
+	
+</mapper>

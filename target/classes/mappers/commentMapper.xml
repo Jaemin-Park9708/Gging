@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.board.model.dao.CommentDao">
+	
+	<insert id="insert" parameterType="Comment">
+		INSERT INTO comments
+		VALUES(#{commentNo}, #{boardNo}, #{id}, #{content}, #{generatedDate}, #{modifiedDate})
+	</insert>
+	
+	<update id="update" parameterType="Comment">
+		UPDATE comments
+		SET content=#{content}, modifiedDate=#{modifiedDate}
+		WHERE commentNo=#{commentNo}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM comments
+		WHERE commentNo=#{commentNo} 
+	</delete>
+	
+	<select id="selectByBoardNo" parameterType="int" resultType="Comment">
+		SELECT * FROM comments
+		WHERE boardNo=#{boardNo}
+		ORDER BY generatedDate desc
+	</select>
+	
+	<select id="selectByCommentNo" parameterType="int" resultType="Comment">
+		SELECT * FROM comments
+		WHERE commentNo=#{commentNo}
+	</select>
+	
+	<select id="selectByUserId" parameterType="String" resultType="Comment">
+		SELECT * FROM comments
+		WHERE id = #{id}
+	</select>
+		
+</mapper>
